@@ -118,9 +118,8 @@
     const result = [];
     const newResult = [];
 
-    if (iterator === undefined) {
-      iterator = _.identity;
-    }
+    // short-circuit assignment using OR (if iterator === undefined)
+    iterator = iterator || _.identity;
 
     _.each(array, (value, key, array) => {
       const newValue = iterator(value);
