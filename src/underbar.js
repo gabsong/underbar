@@ -140,9 +140,9 @@
     // the members, it also maintains an array of results.
     let result = [];
 
-    for (let i = 0; i < collection.length; i++) {
-      result.push(iterator(collection[i]));
-    }
+    _.each(collection, (value) => {
+      result.push(iterator(value));
+    });
 
     return result;
   };
