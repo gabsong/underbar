@@ -133,7 +133,6 @@
     return result;
   };
 
-
   // Return the results of applying an iterator to each element.
   _.map = function (collection, iterator) {
     // map() is a useful primitive iteration function that works a lot
@@ -184,6 +183,18 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function (collection, iterator, accumulator) {
+    let index = 0;
+
+    if (accumulator === undefined) {
+      index = 1;
+      accumulator = collection[0];
+    }
+
+    for (let i = index; i < collection.length; i++) {
+      accumulator = iterator(accumulator, collection[i]);
+    }
+
+    return accumulator;
   };
 
   // Determine if the array or object contains a given value (using `===`).
