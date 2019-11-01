@@ -83,7 +83,7 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function (collection, test) {
-    let result = [];
+    const result = [];
 
     for (let i = 0; i < collection.length; i++) {
       const e = collection[i];
@@ -100,7 +100,7 @@
   _.reject = function (collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    let result = [];
+    const result = [];
 
     for (let i = 0; i < collection.length; i++) {
       const e = collection[i];
@@ -115,8 +115,8 @@
 
   // Produce a duplicate-free version of the array.
   _.uniq = function (array, isSorted, iterator) {
-    let result = [];
-    let newResult = [];
+    const result = [];
+    const newResult = [];
 
     if (iterator === undefined) {
       iterator = _.identity;
@@ -138,7 +138,7 @@
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
-    let result = [];
+    const result = [];
 
     _.each(collection, (value) => {
       result.push(iterator(value));
