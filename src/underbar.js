@@ -85,13 +85,11 @@
   _.filter = function (collection, test) {
     const result = [];
 
-    for (let i = 0; i < collection.length; i++) {
-      const e = collection[i];
-      const truth = test(e);
-      if (truth) {
-        result.push(e)
+    _.each(collection, ele => {
+      if (test(ele)) {
+        result.push(ele);
       }
-    }
+    });
 
     return result;
   };
@@ -100,17 +98,10 @@
   _.reject = function (collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    const result = [];
 
-    for (let i = 0; i < collection.length; i++) {
-      const e = collection[i];
-      const truth = test(e);
-      if (!truth) {
-        result.push(e)
-      }
-    }
-
-    return result;
+    return _.filter(collection, ele => {
+      return !test(ele);
+    });
   };
 
   // Produce a duplicate-free version of the array.
