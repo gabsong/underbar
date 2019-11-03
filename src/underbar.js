@@ -204,9 +204,7 @@
   // Determine whether all of the elements match a truth test.
   _.every = function (collection, iterator) {
     // TIP: Try re-using reduce() here.
-    if (iterator === undefined) {
-      iterator = _.identity;
-    }
+    iterator = iterator || _.identity;
 
     return _.reduce(collection, (accumulator, item) => {
       return accumulator && Boolean(iterator(item));
@@ -217,9 +215,7 @@
   // provided, provide a default one
   _.some = function (collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
-    if (iterator === undefined) {
-      iterator = _.identity;
-    }
+    iterator = iterator || _.identity;
 
     for (let i = 0; i < collection.length; i++) {
       const isTrue = Boolean(iterator(collection[i]));
