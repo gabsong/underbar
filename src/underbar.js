@@ -217,13 +217,19 @@
     // TIP: There's a very clever way to re-use every() here.
     iterator = iterator || _.identity;
 
-    for (let i = 0; i < collection.length; i++) {
-      const isTrue = Boolean(iterator(collection[i]));
-      if (isTrue) {
-        return true;
-      }
-    }
-    return false;
+    // for (let i = 0; i < collection.length; i++) {
+    //   const isTrue = Boolean(iterator(collection[i]));
+    //   if (isTrue) {
+    //     return true;
+    //   }
+    // }
+    // return false;
+
+    // represent some() as "not none"
+    // not every element fails the truth test
+    return !_.every(collection, (item) => {
+      return Boolean(iterator(item)) === false;
+    });
   };
 
   /**
