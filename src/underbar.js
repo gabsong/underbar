@@ -345,7 +345,6 @@
     }, wait);
   };
 
-
   /**
    * ADVANCED COLLECTION OPERATIONS
    * ==============================
@@ -355,8 +354,15 @@
   //
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
-  // http://mdn.io/Array.prototype.slice
-  _.shuffle = function (array) {
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
+  _.shuffle = function(array) {
+    const copy = array.slice();
+    const result = [];
+    while (copy.length > 0) {
+      const i = Math.floor(Math.random() * (copy.length));
+      result.push(copy.splice(i, 1)[0]);
+    }
+    return result;
   };
 
 
