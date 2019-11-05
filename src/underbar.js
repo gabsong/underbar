@@ -312,7 +312,24 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function (func) {
+  _.memoize = function(func) {
+    const valueStore = {};
+
+    return function() {
+      // convert arguments to an array
+      // https://www.sitepoint.com/arguments-a-javascript-oddity/
+      const args = Array.prototype.slice.call(arguments);
+      // const args = [];
+      // for (let i = 0; i < arguments.length; i++) {
+      //   args.push(arguments[i]);
+      // }
+
+      // store the function's arguments and value the first time it is run
+      if (valueStore[args] === undefined) {
+        valueStore[args] = func.apply(this, arguments);
+      }
+      return valueStore[args];
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
