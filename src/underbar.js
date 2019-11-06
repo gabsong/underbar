@@ -313,22 +313,14 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    const valueStore = {};
+    const result = {};
 
-    return function() {
-      // convert arguments to an array
-      // https://www.sitepoint.com/arguments-a-javascript-oddity/
-      const args = Array.prototype.slice.call(arguments);
-      // const args = [];
-      // for (let i = 0; i < arguments.length; i++) {
-      //   args.push(arguments[i]);
-      // }
-
-      // store the function's arguments and value the first time it is run
-      if (valueStore[args] === undefined) {
-        valueStore[args] = func.apply(this, arguments);
+    return (...args) => {
+      const serialization = JSON.stringify(args);
+      if (!result.hasOwnProperty(serialization)) {
+        result[serialization] = func.apply(null, args);
       }
-      return valueStore[args];
+      return result[serialization];
     }
   };
 
@@ -338,11 +330,8 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function (func, wait) {
-    const args = Array.prototype.slice.call(arguments).slice(2, arguments.length);
-    setTimeout(function() {
-      return func.apply(this, args);
-    }, wait);
+  _.delay = function (func, wait, ...args) {
+    setTimeout(() => func.apply(this, args), wait);
   };
 
   /**
