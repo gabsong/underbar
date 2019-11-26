@@ -6,7 +6,7 @@
   // Returns whatever value is passed as the argument. This function doesn't
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
-  _.identity = function (val) {
+  _.identity = (val) => {
     return val;
   };
 
@@ -31,20 +31,15 @@
 
   // Return an array of the first n elements of an array. If n is undefined,
   // return just the first element.
-  _.first = function (array, n) {
+  _.first = (array, n) => {
     return n === undefined ? array[0] : array.slice(0, n);
   };
 
   // Like first, but for the last elements. If n is undefined, return just the
   // last element.
-  _.last = function (array, n) {
+  _.last = (array, n) => {
     const l = array.length;
-    // Edge case
-    if (n > l) {
-      return array;
-    } else {
-      return n === undefined ? array[l - 1] : array.slice(l - n, l);
-    }
+    return n === undefined ? array[l - 1] : array.slice(Math.max(0, l - n));
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -52,7 +47,7 @@
   //
   // Note: _.each does not have a return value, but rather simply runs the
   // iterator function over each item in the input collection.
-  _.each = function (collection, iterator) {
+  _.each = (collection, iterator) => {
     if (Array.isArray(collection)) {
       for (let i = 0; i < collection.length; i++) {
         iterator(collection[i], i, collection);
@@ -66,13 +61,13 @@
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-  _.indexOf = function (array, target) {
+  _.indexOf = (array, target) => {
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
     var result = -1;
 
-    _.each(array, function (item, index) {
+    _.each(array, (item, index) => {
       if (item === target && result === -1) {
         result = index;
       }
@@ -82,7 +77,7 @@
   };
 
   // Return all elements of an array that pass a truth test.
-  _.filter = function (collection, test) {
+  _.filter = (collection, test) => {
     const result = [];
 
     _.each(collection, ele => {
@@ -95,7 +90,7 @@
   };
 
   // Return all elements of an array that don't pass a truth test.
-  _.reject = function (collection, test) {
+  _.reject = (collection, test) => {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
 
@@ -103,26 +98,22 @@
   };
 
   // Produce a duplicate-free version of the array.
-  _.uniq = function (array, isSorted, iterator) {
-    const result = [];
-    const newResult = [];
-
-    // short-circuit assignment using OR (if iterator === undefined)
+  _.uniq = (array, isSorted, iterator) => {
+    const unique = {};
     iterator = iterator || _.identity;
 
-    _.each(array, (value, key, array) => {
+    _.each(array, (value) => {
       const newValue = iterator(value);
-      if (!newResult.includes(newValue)) {
-        newResult.push(newValue);
-        result.push(value);
+      if (unique[newValue] === undefined) {
+        unique[newValue] = value;
       }
     });
 
-    return result;
+    return Object.values(unique);
   };
 
   // Return the results of applying an iterator to each element.
-  _.map = function (collection, iterator) {
+  _.map = (collection, iterator) => {
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
@@ -141,11 +132,11 @@
    * as an example of this.
    */
 
-  _.pluck = function (collection, key) {
+  _.pluck = (collection, key) => {
     // Takes an array of objects and returns and array of the values of
     // a certain property in it. E.g. take an array of people and return
     // an array of just their ages
-    return _.map(collection, function (item) {
+    return _.map(collection, (item) => {
       return item[key];
     });
   };
@@ -170,7 +161,7 @@
   //     return total + number * number;
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
-  _.reduce = function (collection, iterator, accumulator) {
+  _.reduce = (collection, iterator, accumulator) => {
     let index = 0;
 
     if (accumulator === undefined) {
