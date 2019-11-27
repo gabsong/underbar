@@ -177,7 +177,7 @@
   };
 
   // Determine if the array or object contains a given value (using `===`).
-  _.contains = function (collection, target) {
+  _.contains = (collection, target) => {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
     if (Array.isArray(collection)) {
@@ -193,7 +193,7 @@
   };
 
   // Determine whether all of the elements match a truth test.
-  _.every = function (collection, iterator) {
+  _.every = (collection, iterator) => {
     // TIP: Try re-using reduce() here.
     iterator = iterator || _.identity;
 
@@ -204,23 +204,18 @@
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
-  _.some = function (collection, iterator) {
+  _.some = (collection, iterator) => {
     // TIP: There's a very clever way to re-use every() here.
     iterator = iterator || _.identity;
 
-    // for (let i = 0; i < collection.length; i++) {
-    //   const isTrue = Boolean(iterator(collection[i]));
-    //   if (isTrue) {
-    //     return true;
-    //   }
-    // }
-    // return false;
+    return _.reduce(collection, (accumulator, item) => {
+      return accumulator || Boolean(iterator(item));
+    }, false);
 
-    // represent some() as "not none"
-    // not every element fails the truth test
-    return !_.every(collection, (item) => {
-      return Boolean(iterator(item)) === false;
-    });
+    // represent some() as "not none": not every element fails the truth test
+    // return !_.every(collection, (item) => {
+    //   return Boolean(iterator(item)) === false;
+    // });
   };
 
   /**
@@ -241,10 +236,10 @@
   //   }, {
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
-  _.extend = function (obj) {
-    for (let i = 1; i < arguments.length; i++) {
-      for (let key in arguments[i]) {
-        obj[key] = arguments[i][key];
+  _.extend = (obj, ...args) => {
+    for (let i = 0; i < args.length; i++) {
+      for (let key in args[i]) {
+        obj[key] = args[i][key];
       }
     }
     return obj;
@@ -252,11 +247,11 @@
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
-  _.defaults = function (obj) {
-    for (let i = 1; i < arguments.length; i++) {
-      for (let key in arguments[i]) {
+  _.defaults = (obj, ...args) => {
+    for (let i = 0; i < args.length; i++) {
+      for (let key in args[i]) {
         if (obj[key] === undefined) {
-          obj[key] = arguments[i][key];
+          obj[key] = args[i][key];
         }
       }
     }
@@ -274,7 +269,7 @@
 
   // Return a function that can be called at most one time. Subsequent calls
   // should return the previously returned value.
-  _.once = function (func) {
+  _.once = (func) => {
     // TIP: These variables are stored in a "closure scope" (worth researching),
     // so that they'll remain available to the newly-generated function every
     // time it's called.
@@ -283,11 +278,11 @@
 
     // TIP: We'll return a new function that delegates to the old one, but only
     // if it hasn't been called before.
-    return function () {
+    return (...args) => {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
-        result = func.apply(this, arguments);
+        // information from one function call to another.
+        result = func.apply(null, args);
         alreadyCalled = true;
       }
       // The new function always returns the originally computed result.
@@ -303,7 +298,7 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
+  _.memoize = (func) => {
     const result = {};
 
     return (...args) => {
@@ -321,7 +316,7 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function (func, wait, ...args) {
+  _.delay = (func, wait, ...args) => {
     setTimeout(() => func.apply(this, args), wait);
   };
 
@@ -335,7 +330,7 @@
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice
-  _.shuffle = function(array) {
+  _.shuffle = (array) => {
     const copy = array.slice();
     const result = [];
     while (copy.length > 0) {
